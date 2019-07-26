@@ -1,0 +1,8 @@
+package com.ssafy.domain;
+
+public class Refrigerator {
+	private String serialNo;
+	private String name;
+	private int price;
+	private int quantity;
+}

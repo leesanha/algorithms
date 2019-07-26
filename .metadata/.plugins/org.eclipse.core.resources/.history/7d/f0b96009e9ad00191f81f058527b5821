@@ -1,0 +1,23 @@
+
+public class TV {
+	private String serialNo;
+	private String name;
+	private int price;
+	private int quantity;
+	private double inch;
+	private String type;
+
+	public TV(String serialNo, String name, int price, int quantity, double inch, String type) {
+		super();
+		this.serialNo = serialNo;
+		this.name = name;
+		this.price = price;
+		this.quantity = quantity;
+		this.inch = inch;
+		this.type = type;
+	}
+
+	public String toString() {
+		return serialNo + "\t | " + name + "\t | " + price + "\t | " + quantity + "\t | " + inch + "\t | " + type;
+	}
+}
