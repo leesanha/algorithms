@@ -1,35 +1,6 @@
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
-<<<<<<< HEAD
-import java.util.Set;
- 
-/*
- * String으로 하면 시간 초과
- * 중복이 안되도록 하는 것은 set을 사용하는 방법을 생각해보기
- * list로 해서 숫자로 비교해도 됨.
- */
- 
-public class Solution {
-    static Scanner sc = new Scanner(System.in);
-    static int ans;
-    static int[] dr = { 0, 1, 0, -1 };
-    static int[] dc = { 1, 0, -1, 0 };
-    static int[][] map;
-    static ArrayList<Integer> list;
-    static Set<Integer> s = new HashSet<>();
- 
-    public static void main(String[] args) {
-        int tc = sc.nextInt();
- 
-        for (int t = 1; t <= tc; t++) {
-            
-        }
-        sc.close();
-    }
- 
-}
-=======
 
 public class Solution {
 	static Scanner sc = new Scanner(System.in);
@@ -58,7 +29,7 @@ public class Solution {
 			}
 			for (int row = 0; row < size; row++) {
 				for (int col = 0; col < size; col++) {
-					if (arr[row][col] == '.') {
+					if (arr[row][col] == '.' && !check[row][col]) {
 						boolean flag = true;
 						for (int i = 0; i < 8; i++) {
 							int nr = row + dr[i];
@@ -74,30 +45,12 @@ public class Solution {
 						if (flag) {
 							q.add(row);
 							q.add(col);
+							bfs();
 						}
 					}
 				}
 			}
-			
-			int row, col;
-			while (!q.isEmpty()) {
-				row = q.poll();
-				col = q.poll();
-
-				if (!check[row][col]) {
-					check[row][col] = true;
-					ans++;
-				}
-				for (int i = 0; i < 8; i++) {
-					int nr = row + dr[i];
-					int nc = col + dc[i];
-
-					if (nr < 0 || nr >= size || nc < 0 || nc >= size)
-						continue;
-					check[nr][nc] = true;
-				}
-			}
-			
+				
 			for (int i = 0; i < size; i++) {
 				for (int j = 0; j < size; j++) {
 					if (!check[i][j])
@@ -109,5 +62,31 @@ public class Solution {
 		sc.close();
 	}
 
+	private static void bfs() {
+		int row, col;
+		while (!q.isEmpty()) {
+			row = q.poll();
+			col = q.poll();
+
+			if(!check[row][col]) {
+				check[row][col] = true;
+				ans++;
+			}
+			for (int i = 0; i < 8; i++) {
+				int nr = row + dr[i];
+				int nc = col + dc[i];
+				
+				
+				if (nr < 0 || nr >= size || nc < 0 || nc >= size)
+					continue;
+				if(arr[nr][nc] != '.' || check[nr][nc] )
+					break;
+				check[nr][nc] = true;
+				q.add(nr);
+				q.add(nc);
+			}
+		}
+		
+	}
+
 }
->>>>>>> 96ba4d94183f0d8f321766aa3f77f8cec5d6730f
