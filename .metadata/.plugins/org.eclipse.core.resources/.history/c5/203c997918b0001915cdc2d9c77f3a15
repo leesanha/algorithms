@@ -1,0 +1,78 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+class Rc {
+	int row;
+	int col;
+
+	public Rc() {
+	}
+
+	public Rc(int row, int col) {
+		super();
+		this.row = row;
+		this.col = col;
+	}
+
+}
+
+public class Solution1824 {
+	static Scanner sc = new Scanner(System.in);
+	static int ans, row, col, num;
+	static char[][] maze;
+	static boolean[][] visit;
+	static int[] dr = { 0, 1, 0, -1 };
+	static int[] dc = { 1, 0, -1, 0 };
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		for (int t = 1; t <= 10; t++) {
+			num = sc.nextInt();
+			ans = 0;
+			maze = new char[16][16];
+			visit = new boolean[16][16];
+			row = col = 0;
+
+			Queue<Rc> q = new LinkedList<Rc>();
+			for (int i = 0; i < 16; i++) {
+				maze[i] = sc.next().toCharArray();
+				for (int j = 0; j < 16; j++) {
+					if (maze[i][j] == '1')
+						visit[i][j] = true;
+					if (maze[i][j] == '2') {
+						q.add(new Rc(i, j));
+						visit[i][j] = true;
+					}
+
+				}
+			}
+
+			while (!q.isEmpty()) {
+				row = q.peek().row;
+				col = q.peek().col;
+				q.poll();
+
+				for (int i = 0; i < 4; i++) {
+					int nr = row + dr[i];
+					int nc = col + dc[i];
+
+					if (nr < 0 || nr >= 16 || nc < 0 || nc >= 16 || visit[nr][nc])
+						continue;
+					if (maze[nr][nc] == '3') {
+						ans = 1;
+						break;
+					}
+					q.add(new Rc(nr, nc));
+					visit[nr][nc] = true;
+				}
+			}
+
+			System.out.format("#%d %d\n", num, ans);
+
+		}
+		sc.close();
+	}
+
+}

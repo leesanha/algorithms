@@ -29,7 +29,7 @@ public class Solution {
 			}
 			for (int row = 0; row < size; row++) {
 				for (int col = 0; col < size; col++) {
-					if (arr[row][col] == '.') {
+					if (arr[row][col] == '.' && !check[row][col]) {
 						boolean flag = true;
 						for (int i = 0; i < 8; i++) {
 							int nr = row + dr[i];
@@ -45,30 +45,12 @@ public class Solution {
 						if (flag) {
 							q.add(row);
 							q.add(col);
+							bfs();
 						}
 					}
 				}
 			}
-			
-			int row, col;
-			while (!q.isEmpty()) {
-				row = q.poll();
-				col = q.poll();
-
-				if (!check[row][col]) {
-					check[row][col] = true;
-					ans++;
-				}
-				for (int i = 0; i < 8; i++) {
-					int nr = row + dr[i];
-					int nc = col + dc[i];
-
-					if (nr < 0 || nr >= size || nc < 0 || nc >= size)
-						continue;
-					check[nr][nc] = true;
-				}
-			}
-			
+				
 			for (int i = 0; i < size; i++) {
 				for (int j = 0; j < size; j++) {
 					if (!check[i][j])
@@ -78,6 +60,33 @@ public class Solution {
 			System.out.format("#%d %d\n", t, ans);
 		}
 		sc.close();
+	}
+
+	private static void bfs() {
+		int row, col;
+		while (!q.isEmpty()) {
+			row = q.poll();
+			col = q.poll();
+
+			if(!check[row][col]) {
+				check[row][col] = true;
+				ans++;
+			}
+			for (int i = 0; i < 8; i++) {
+				int nr = row + dr[i];
+				int nc = col + dc[i];
+				
+				
+				if (nr < 0 || nr >= size || nc < 0 || nc >= size)
+					continue;
+				if(arr[nr][nc] != '.' || check[nr][nc] )
+					break;
+				check[nr][nc] = true;
+				q.add(nr);
+				q.add(nc);
+			}
+		}
+		
 	}
 
 }

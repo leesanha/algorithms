@@ -1,0 +1,118 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Test {
+    static int T;
+    static int r,c;
+    static char[][] map;
+    static boolean[][][][] visited;    // x좌표, y좌표, 방향, 메모리 종류
+    static boolean find;
+    static int[] dx = {-1,0,1,0};    // 동서남북 1320
+    static int[] dy = {0,1,0,-1};
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        T = Integer.parseInt(br.readLine());
+        int t = 1;
+        
+        while(T-- > 0) {
+            
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            
+            r = Integer.parseInt(st.nextToken());
+            c = Integer.parseInt(st.nextToken());
+            
+            map = new char[r][c];
+            visited = new boolean[r][c][4][16];
+            find = false;
+            boolean hasEnd = false;
+            
+            for (int i = 0; i < r; i++) {
+                map[i] = br.readLine().toCharArray();
+                for (int j = 0; j < c; j++) {
+                    if(map[i][j] == '@')
+                        hasEnd = true;
+                }
+            }
+            // '@' 가 있는 테스트 케이스만 탐색한다.
+            if(hasEnd) {
+                solve(0,0,1,0);
+            }
+            System.out.printf("#%d %s\n",t++,find ? "YES" : "NO");
+        }
+    }
+    
+    static void solve(int x, int y, int d, int mem) {
+        if(find) return ;
+        
+        if(map[x][y] == '@') {
+            find = true;
+            return ;
+        }
+        
+        // 방문한 노드라면 패스
+        if(visited[x][y][d][mem]) return ;
+        
+        // 방문 처리
+        visited[x][y][d][mem] = true;
+        
+        int nd = d;
+        int nm = mem;
+        
+        switch(map[x][y]) {
+        case '<': nd = 3; break;
+        case '>': nd = 1; break;
+        case '^': nd = 0; break;
+        case 'v': nd = 2; break;
+        case '_': nd = (mem == 0 ? 1 : 3); break;
+        case '|': nd = (mem == 0 ? 2 : 0); break;
+        case '+': nm = (mem == 15 ? 0 : mem+1); break;
+        case '-': nm = (mem == 0 ? 15 : mem-1); break;
+        case '0':case '1':case '2':case '3':case '4': 
+        case '5':case '6':case '7':case '8':case '9':
+            nm = map[x][y] -'0';
+            break;
+        }
+        
+        // 물음표면 네 방향 체크
+        if (map[x][y] == '?') {
+            for (int i = 0; i < 4; i++) {
+                if(x+dx[i] < 0 ) {
+                    solve(r-1,y+dy[i],i,nm);
+                }
+                else if(x+dx[i] >= r) {
+                    solve(0,y+dy[i],i,nm);
+                }
+                else if ( y+dy[i] < 0) {
+                    solve(x+dx[i],c-1,i,nm);
+                }
+                else if ( y+dy[i] >= c) {
+                    solve(x+dx[i],0,i,nm);
+                }
+                else {
+                    solve(x+dx[i],y+dy[i],i,nm);    
+                }
+            }
+        }
+        else {
+            if(x+dx[nd] < 0 ) {
+                solve(r-1,y+dy[nd],nd,nm);
+            }
+            else if(x+dx[nd] >= r) {
+                solve(0,y+dy[nd],nd,nm);
+            }
+            else if ( y+dy[nd] < 0) {
+                solve(x+dx[nd],c-1,nd,nm);
+            }
+            else if ( y+dy[nd] >= c) {
+                solve(x+dx[nd],0,nd,nm);
+            }
+            else {
+                solve(x+dx[nd],y+dy[nd],nd,nm);    
+            }
+        }
+    }
+}
