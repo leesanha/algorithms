@@ -1,92 +1,56 @@
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class Solution {
 	static Scanner sc = new Scanner(System.in);
-	static int[] dr = { -1, -1, 0, 1, 1, 1, 0, -1 };
-	static int[] dc = { 0, 1, 1, 1, 0, -1, -1, -1 };
-	static Queue<Integer> q;
-	static char[][] arr;
-	static boolean[][] check;
-	static int ans, size;
+	static int ans;
 
 	public static void main(String[] args) {
 		int tc = sc.nextInt();
-
+		int num;
+		int[] check;
 		for (int t = 1; t <= tc; t++) {
-			size = sc.nextInt();
-			arr = new char[size][size];
-			check = new boolean[size][size];
-			q = new LinkedList<>();
-			ans = 0;
-
-			for (int i = 0; i < size; i++) {
-				arr[i] = sc.next().toCharArray();
-				for (int j = 0; j < size; j++)
-					if (arr[i][j] == '*')
-						check[i][j] = true;
+			check = new int[10];
+			ans = -1;
+			for (int i = 0; i < 10; i++) {
+				check[i] = sc.nextInt();
 			}
-			for (int row = 0; row < size; row++) {
-				for (int col = 0; col < size; col++) {
-					if (arr[row][col] == '.' && !check[row][col]) {
-						boolean flag = true;
-						for (int i = 0; i < 8; i++) {
-							int nr = row + dr[i];
-							int nc = col + dc[i];
-
-							if (nr < 0 || nr >= size || nc < 0 || nc >= size)
-								continue;
-							if (arr[nr][nc] == '*') {
-								flag = false;
-								break;
-							}
-						}
-						if (flag) {
-							q.add(row);
-							q.add(col);
-							bfs();
-						}
-					}
-				}
-			}
-				
-			for (int i = 0; i < size; i++) {
-				for (int j = 0; j < size; j++) {
-					if (!check[i][j])
-						ans++;
-				}
-			}
-			System.out.format("#%d %d\n", t, ans);
+			num = sc.nextInt();
+			dfs(check, num, 0);
+			System.out.format("#%d %d\n", t, (ans == -1) ? -1 : ans + 1);
 		}
 		sc.close();
 	}
 
-	private static void bfs() {
-		int row, col;
-		while (!q.isEmpty()) {
-			row = q.poll();
-			col = q.poll();
+	static void dfs(int[] check, int num, int cnt) {
+		int res = go(check, num);
 
-			if(!check[row][col]) {
-				check[row][col] = true;
-				ans++;
-			}
-			for (int i = 0; i < 8; i++) {
-				int nr = row + dr[i];
-				int nc = col + dc[i];
-				
-				
-				if (nr < 0 || nr >= size || nc < 0 || nc >= size)
-					continue;
-				if(arr[nr][nc] != '.' || check[nr][nc] )
-					break;
-				check[nr][nc] = true;
-				q.add(nr);
-				q.add(nc);
+		if (res != -1) {
+			if (ans == -1 || ans > res + cnt)
+				ans = res + cnt;
+			return;
+		}
+		for (int i = 2; i < 10; i++) {
+			if (num < i)
+				break;
+			if (check[i] == 1 && num % i == 0) {
+				dfs(check, num / i, cnt + 2);
 			}
 		}
-		
+
+	}
+
+	private static int go(int[] check, int num) {
+		int res = 0;
+		boolean flag = true;
+		while (num > 0) {
+			if (check[num % 10] == 0) {
+				flag = false;
+				break;
+			}
+			res++;
+			num /= 10;
+		}
+		return flag ? res : -1;
 	}
 
 }
