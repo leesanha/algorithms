@@ -1,6 +1,0 @@
-
-public class TV {
-	private String serialNo;
-	private String name;
-	private int price
-}

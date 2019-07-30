@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+D:\백수생활\SSAFY\workspace\swea\.metadata\.plugins\org.eclipse.jdt.core
-3017952843.index
-2289979518.index
-1767312151.index

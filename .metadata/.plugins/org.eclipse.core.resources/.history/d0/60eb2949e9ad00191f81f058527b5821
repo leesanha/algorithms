@@ -1,5 +1,0 @@
-package com.ssafy.domain;
-
-public class Refrigerator {
-	private String serialNo;
-}
