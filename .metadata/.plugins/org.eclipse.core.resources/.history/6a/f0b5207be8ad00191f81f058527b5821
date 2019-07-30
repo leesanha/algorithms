@@ -1,5 +1,0 @@
-
-public class TV {
-	String serialNo;
-	String name;
-}

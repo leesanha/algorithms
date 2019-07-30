@@ -1,6 +1,0 @@
-=\=\=\=\=\=\=
-<<<<<<<=HEAD
->>>>>>>=96ba4d94183f0d8f321766aa3f77f8cec5d6730f
-eclipse.preferences.version=1
-org.eclipse.debug.core.USE_STEP_FILTERS=false
-prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions>\r\n    <expression enabled\="true" text\="ans"/>\r\n</watchExpressions>\r\n
