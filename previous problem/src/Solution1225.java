@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-class Solution {
+class Solution1225 {
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
