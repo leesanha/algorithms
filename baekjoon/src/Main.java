@@ -47,7 +47,8 @@ public class Main {
 		visit[rrow][rcol][brow][bcol] = true;
 		ans = -1;
 
-		int cnt;
+		int cnt = 0, rnr = 0, rnc = 0, bnr = 0, bnc = 0;
+		boolean rflag = false, bflag = false;
 		while (!q.isEmpty()) {
 			rrow = q.poll();
 			rcol = q.poll();
@@ -55,53 +56,81 @@ public class Main {
 			bcol = q.poll();
 			cnt = q.poll();
 
+			if (cnt > 10)
+				break;
+
 			for (int i = 0; i < 4; i++) {
-				move(rrow, rcol, brow, bcol, i);
+				int rdis = 0, bdis = 0;
+				rflag = bflag = false;
+				rnr = rrow;
+				rnc = rcol;
+				bnr = brow;
+				bnc = bcol;
+				while (true) {
+					rnr = rnr + dr[i];
+					rnc = rnc + dc[i];
+					rdis++;
+					if (map[rnr][rnc] == '#') {
+						rnr = rnr + dr[(i + 2) % 4];
+						rnc = rnc + dc[(i + 2) % 4];
+						rdis--;
+						break;
+					}
+					if (map[rnr][rnc] == 'O') {
+						rflag = true;
+						break;
+					}
+				}
+				while (true) {
+					bnr = bnr + dr[i];
+					bnc = bnc + dc[i];
+					bdis++;
+					if (map[bnr][bnc] == '#') {
+						bnr = bnr + dr[(i + 2) % 4];
+						bnc = bnc + dc[(i + 2) % 4];
+						bdis--;
+						break;
+					}
+					if (map[bnr][bnc] == 'O') {
+						bflag = true;
+						break;
+					}
+				}
+
+				if (!rflag && !bflag) {
+					if (map[rnr][rnc] != 'O' && rnr == bnr && rnc == bnc) {
+						if (rdis > bdis) {
+							bnr = bnr + dr[(i + 2) % 4];
+							bnc = bnc + dc[(i + 2) % 4];
+						} else {
+							rnr = rnr + dr[(i + 2) % 4];
+							rnc = rnc + dc[(i + 2) % 4];
+						}
+					}
+
+					if (!visit[rnr][rnc][bnr][bnc]) {
+						visit[rnr][rnc][bnr][bnc] = true;
+						q.offer(rnr);
+						q.offer(rnc);
+						q.offer(bnr);
+						q.offer(bnc);
+						q.offer(cnt + 1);
+					}
+				} else if (rflag && !bflag) {
+					ans = cnt + 1;
+					break;
+				}
+
+			}
+			if (rflag && !bflag) {
+				ans = cnt + 1;
+				break;
 			}
 		}
 		System.out.println(ans);
 	}
 
 	static void move(int rrow, int rcol, int brow, int bcol, int dir) {
-		int rdis = 0, bdis = 0;
-		while (true) {
-			rrow = rrow + dr[dir];
-			rcol = rcol + dc[dir];
-			rdis++;
-			if (map[rrow][rcol] == '#') {
-				rrow = rrow + dr[(dir + 2) % 4];
-				rcol = rcol + dc[(dir + 2) % 4];
-				rdis--;
-				break;
-			}
-			if (map[rrow][rcol] == 'O')
-				break;
-		}
-		while (true) {
-			brow = brow + dr[(dir + 2) % 4];
-			bcol = bcol + dc[(dir + 2) % 4];
-			bdis++;
-			if (map[brow][bcol] == '#') {
-				bdis--;
-				break;
-			}
-			if (map[brow][bcol] == 'O')
-				break;
-		}
-
-		if (map[rrow][rcol] != 'O' && rrow == brow && rcol == bcol) {
-			if (rdis > bdis) {
-				brow = brow + dr[(dir + 2) % 4];
-				bcol = bcol + dc[(dir + 2) % 4];
-			} else {
-				rrow = rrow + dr[dir];
-				rcol = rcol + dc[dir];
-			}
-		}
-
-		if (!visit[rrow][rcol][brow][bcol]) {
-			visit[rrow][rcol][brow][bcol] = true;
-		}
 
 	}
 }
