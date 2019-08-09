@@ -3,13 +3,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.Queue;
 
-public class Solution {
+public class Solution4111 {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static int camera, receiver, ans;
 	static LinkedList<Integer> list;
-	static PriorityQueue<Integer> q;
+	static LinkedList<Integer> res;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		int tc = Integer.parseInt(br.readLine());
@@ -29,22 +29,12 @@ public class Solution {
 			}
 			Collections.sort(list);
 
-			q = new PriorityQueue<Integer>();
-			for (int i = 0; i < list.size() - 1; i++) {
-				q.add(Math.abs(list.get(i) - list.get(i + 1)));
+			res = new LinkedList<Integer>();
+			for (int i = list.size() - 1; i >= 1; i--) {
+				res.add(list.get(i) - list.get(i - 1));
 			}
-
-			/*
-			 * for(int i : list) { System.out.print(i + " "); } System.out.println();
-			 * for(int i : res) { System.out.print(i + " "); } System.out.println();
-			 */
-			ans = 0;
-			for (int i = 0; i <= receiver - 1; i++) {
-				q.poll();
-			}
-			while (!q.isEmpty()) {
-				ans += q.poll();
-			}
+			
+			
 
 			System.out.format("#%d %d\n", t, ans);
 		}
