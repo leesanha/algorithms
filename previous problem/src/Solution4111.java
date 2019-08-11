@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class Solution {
+public class Solution4111 {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static int camera, receiver, ans;
 	static int[] arr;
