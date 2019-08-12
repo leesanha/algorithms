@@ -9,7 +9,7 @@ public class Main2607 {
 
 		int size = Integer.parseInt(br.readLine());
 
-		//¾ËÆÄºª °¹¼ö°¡ Áß¿äÇÏ´Ù°í »ý°¢ÇØ¼­ 27°³ÀÇ ¹è¿­À» ¸¸µé¾î¼­ ÇØ´ç ¾ËÆÄºªÀÇ °¹¼ö¸¸Å­ Áõ°¡½ÃÅ´
+		//ì•ŒíŒŒë²³ ê°¯ìˆ˜ê°€ ì¤‘ìš”í•˜ë‹¤ê³  ìƒê°í•´ì„œ 27ê°œì˜ ë°°ì—´ì„ ë§Œë“¤ì–´ì„œ í•´ë‹¹ ì•ŒíŒŒë²³ì˜ ê°¯ìˆ˜ë§Œí¼ ì¦ê°€ì‹œí‚´
 		int[][] arr = new int[size][27];
 		for (int i = 0; i < size; i++) {
 			char[] input = br.readLine().toCharArray();
@@ -22,14 +22,14 @@ public class Main2607 {
 		for (int i = 1; i < size; i++) {
 			int cnt = 0;
 			for (int j = 0; j < 27; j++) {
-				if (Math.abs(arr[0][j] - arr[i][j]) >= 1)//°°Àº ÀÎµ¦½º¿¡ °°Àº °ªÀ» °¡Áö°í ÀÖÀ¸¸é °°Àº ±¸¼º
-					cnt++;//ÇÏÁö¸¸ ±× Â÷ÀÌ°¡ 1ÀÌ»óÀÌ¸é ÇØ´ç ¾ËÆÄºªÀÇ °³¼ö°¡ ´Ù¸£¹Ç·Î ÀÏ´Ü Ã¼Å©ÇÑ´Ù.
-				if (cnt >= 3)//±× Â÷ÀÌ°¡ 3ÀÌ»óÀÌ¶ó¸é 2°³ ÀÌ»óÀÇ ¾ËÆÄºªÀÌ ´Ù¸¥ °ÍÀÌ¹Ç·Î ºñ½ÁÇÑ ´Ü¾î, °°Àº ´Ü¾î°¡ ¾Æ´Ô
+				if (Math.abs(arr[0][j] - arr[i][j]) >= 1)//ê°™ì€ ì¸ë±ìŠ¤ì— ê°™ì€ ê°’ì„ ê°€ì§€ê³  ìžˆìœ¼ë©´ ê°™ì€ êµ¬ì„±
+					cnt++;//í•˜ì§€ë§Œ ê·¸ ì°¨ì´ê°€ 1ì´ìƒì´ë©´ í•´ë‹¹ ì•ŒíŒŒë²³ì˜ ê°œìˆ˜ê°€ ë‹¤ë¥´ë¯€ë¡œ ì¼ë‹¨ ì²´í¬í•œë‹¤.
+				if (cnt >= 3)//ê·¸ ì°¨ì´ê°€ 3ì´ìƒì´ë¼ë©´ 2ê°œ ì´ìƒì˜ ì•ŒíŒŒë²³ì´ ë‹¤ë¥¸ ê²ƒì´ë¯€ë¡œ ë¹„ìŠ·í•œ ë‹¨ì–´, ê°™ì€ ë‹¨ì–´ê°€ ì•„ë‹˜
 					break;
 			}
 			if (cnt <= 1)
 				ans++;
-			else if (cnt == 2) {//¸¸¾à ¾ËÆÄºª ÇÏ³ª¸¸ ¹Ù²ã¼­ ºñ½ÁÇÑ ´Ü¾î°¡ µÇ´Â °æ¿ì¶ó¸é ´Ü¾îÀÇ ±æÀÌ°¡ °°´Ù°í »ý°¢ÇÏ°í Ç®¾ú´Ù.
+			else if (cnt == 2) {//ë§Œì•½ ì•ŒíŒŒë²³ í•˜ë‚˜ë§Œ ë°”ê¿”ì„œ ë¹„ìŠ·í•œ ë‹¨ì–´ê°€ ë˜ëŠ” ê²½ìš°ë¼ë©´ ë‹¨ì–´ì˜ ê¸¸ì´ê°€ ê°™ë‹¤ê³  ìƒê°í•˜ê³  í’€ì—ˆë‹¤.
 				int sum1 = 0, sum2 = 0;
 				for (int j = 0; j < 27; j++) {
 					sum1 += arr[0][j];
