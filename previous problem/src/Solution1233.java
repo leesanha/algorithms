@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Solution {
+public class Solution1233 {
 
 	static class Node {
 		String data;
@@ -64,10 +64,10 @@ public class Solution {
 		case "/":
 			boolean flag1 = go(node.left);
 			boolean flag2 = go(node.right);
-			if (!flag1 || !flag2)
+			if (!flag1 || !flag2)//연산자인데 자식이 2개가 아닌 경우 false 리턴
 				return false;
 			return true;
-		default:
+		default://숫자인데 자식 노드가 있으면 false 리턴
 			if(!(node.left == null && node.right == null))
 				return false;
 			return true;
