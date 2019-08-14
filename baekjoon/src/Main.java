@@ -32,147 +32,224 @@ public class Main {
 	}
 
 	private static void solve(int[][] arr, int dir, int depth) {
-		if (depth == 5)
+		if (depth == 5) {
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
+					if(ans < arr[i][j])
+						ans = arr[i][j];
+				}
+			}
 			return;
+		}
 
 		int[][] cp = new int[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				cp[i][j]  = arr[i][j];
+				cp[i][j] = arr[i][j];
 			}
 		}
-		arr = move(arr, dir);
-		// arr이 변한게 없으면 더이상 재귀에 들어가지 않고 return 한다.
-		if (flag) {
-			flag = !flag;
-			return;
-		}
+		
+//		for (int i = 0; i < n; i++) {
+//			for (int j = 0; j < n; j++) {
+//				System.out.print(arr[i][j] + " ");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
+		
+		move(arr, dir);
+
 
 		for (int i = 0; i < 4; i++) {
 			solve(arr, i, depth + 1);
 			for (int j = 0; j < n; j++) {
 				for (int k = 0; k < n; k++) {
-					arr[j][k]  = cp[j][k];
+					arr[j][k] = cp[j][k];
 				}
 			}
 		}
 	}
 
-	private static int[][] move(int[][] arr, int dir) {
-		if (dir == 0) {
-			for (int i = 1; i < n; i++) {
-				for (int j = 0; j < n; j++) {
+	private static void move(int[][] arr, int dir) {
+		boolean [] check = new boolean[n];
+		if (dir == 0) {// 위로
+			for (int j = 0; j < n; j++) {// col
+				check = new boolean[n];
+				for (int i = 1; i < n; i++) {// row
 					if (arr[i][j] == 0)
 						continue;
-					boolean already = false;
-					for (int k = i; k > 0; k--) {
-						if (!already && (arr[k - 1][j] == arr[k][j])) {
-							already = true;
-							arr[k - 1][j] += arr[k - 1][j];
-							arr[k][j] = 0;
-							if (ans < arr[k - 1][j]) {
-								ans = arr[k - 1][j];
+					int cur = i;
+					for (int k = cur - 1; k >= 0; k--) {
+						if(arr[k][j] == 0) {
+							arr[k][j] = arr[cur][j];
+							arr[cur][j] = 0;
+							cur--;
+							continue;
+						}else {
+							if((!check[k] && !check[cur]) && arr[k][j] == arr[cur][j]) {
+								arr[k][j] *= 2;
+								arr[cur][j] = 0;
+								cur--;
+								check[k] = true;
+								continue;
+							}else {
+								break;
 							}
-							flag = false;
-						} else if (arr[k - 1][j] == 0) {
-							arr[k - 1][j] = arr[k][j];
-							arr[k][j] = 0;
-							if (ans < arr[k - 1][j]) {
-								ans = arr[k - 1][j];
-							}
-							flag = false;
-						} else {
-							break;
 						}
+						/*
+						if (!check[k - 1] && arr[k - 1][j] == arr[i][j]) {
+							arr[k - 1][j] *= 2;
+							arr[i][j] = 0;
+							check[k - 1] = true;
+							break;
+						} else if (arr[k - 1][j] != 0) {
+							arr[k][j] = arr[i][j];
+							arr[i][j] = 0;
+							break;
+						} else if (k == 1 && arr[k - 1][j] == 0) {
+							arr[k - 1][j] = arr[i][j];
+							arr[i][j] = 0;
+						}
+						*/
 					}
 				}
 			}
-		} else if (dir == 3) {
-			for (int i = 1; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					if (arr[j][i] == 0)
+		} else if (dir == 3) {// 왼쪽으로
+			for (int i = 0; i < n; i++) {// row
+				check = new boolean[n];
+				for (int j = 1; j < n; j++) {// col
+					if (arr[i][j] == 0)
 						continue;
-					boolean already = false;
-					for (int k = i; k > 0; k--) {
-						if (!already && (arr[j][k - 1] == arr[j][k])) {
-							already = true;
-							arr[j][k - 1] += arr[j][k - 1];
-							arr[j][k] = 0;
-							if (ans < arr[j][k - 1]) {
-								ans = arr[j][k - 1];
+					
+					int cur = j;
+					for (int k = cur - 1; k >= 0; k--) {
+						if(arr[i][k] == 0) {
+							arr[i][k] = arr[i][cur];
+							arr[i][cur] = 0;
+							cur--;
+							continue;
+						}else {
+							if((!check[k] && !check[cur]) && arr[i][k] == arr[i][cur]) {
+								arr[i][k] *= 2;
+								arr[i][cur] = 0;
+								cur--;
+								check[k] = true;
+								continue;
+							}else {
+								break;
 							}
-							flag = false;
-						} else if (arr[j][k - 1] == 0) {
-							arr[j][k - 1] = arr[j][k];
-							arr[j][k] = 0;
-							if (ans < arr[j][k - 1]) {
-								ans = arr[j][k - 1];
-							}
-							flag = false;
-						} else {
-							break;
 						}
 					}
+					/*
+					for (int k = j; k > 0; k--) {
+						if (!check[k - 1] &&  arr[i][k - 1] == arr[i][j]) {
+							arr[i][k - 1] *= 2;
+							arr[i][j] = 0;
+							check[k - 1] = true;
+							break;
+						} else if (arr[j][k - 1] != 0) {
+							arr[i][k] = arr[i][j];
+							arr[i][j] = 0;
+							break;
+						} else if (k == 1 && arr[i][k - 1] == 0) {
+							arr[i][k - 1] = arr[i][j];
+							arr[i][j] = 0;
+						}
+					}
+					*/
 				}
 			}
-		} else if (dir == 1) {
-			for (int i = n - 2; i >= 0; i--) {
-				for (int j = 0; j < n; j++) {
-					if (arr[j][i] == 0)
+		} else if (dir == 1) {// 오른쪽으로
+			for (int i = 0; i < n; i++) {// row
+				check = new boolean[n];
+				for (int j = n - 2; j >= 0; j--) {// col
+					if (arr[i][j] == 0)
 						continue;
-					boolean already = false;
+					int cur = j;
+					for (int k = cur + 1; k < n; k++) {
+						if(arr[i][k] == 0) {
+							arr[i][k] = arr[i][cur];
+							arr[i][cur] = 0;
+							cur++;
+							continue;
+						}else {
+							if((!check[k] && !check[cur]) && arr[i][k] == arr[i][cur]) {
+								arr[i][k] *= 2;
+								arr[i][cur] = 0;
+								cur++;
+								check[k] = true;
+								continue;
+							}else {
+								break;
+							}
+						}
+					}
+					/*
+					for (int k = j; k < n - 1; k++) {
+						if (!check[k + 1] &&  arr[i][k + 1] == arr[i][j]) {
+							arr[i][k + 1] *= 2;
+							arr[i][j] = 0;
+							check[k + 1] = true;
+							break;
+						} else if (arr[i][k + 1] != 0) {
+							arr[i][k] = arr[i][j];
+							arr[i][i] = 0;
+							break;
+						} else if (k == n - 2 && arr[i][k + 1] == 0) {
+							arr[i][k + 1] = arr[i][j];
+							arr[i][j] = 0;
+						}
+					}
+					*/
+				}
+			}
+		} else {// 밑으로
+			for (int j = 0; j < n - 1; j++) {// row
+				check = new boolean[n];
+				for (int i = n - 2; i >= 0; i--) {// col
+					if (arr[i][j] == 0)
+						continue;
+					int cur = i;
+					for (int k = cur + 1; k < n; k++) {
+						if(arr[k][j] == 0) {
+							arr[k][j] = arr[cur][j];
+							arr[cur][j] = 0;
+							cur++;
+							continue;
+						}else {
+							if((!check[k] && !check[cur]) && arr[k][j] == arr[cur][j]) {
+								arr[k][j] *= 2;
+								arr[cur][j] = 0;
+								cur++;
+								check[k] = true;
+								continue;
+							}else {
+								break;
+							}
+						}
+					}
+					/*
 					for (int k = i; k < n - 1; k++) {
-						if (!already && (arr[j][k + 1] == arr[j][k])) {
-							already = true;
-							arr[j][k + 1] += arr[j][k + 1];
-							arr[j][k] = 0;
-							if (ans < arr[j][k + 1]) {
-								ans = arr[j][k + 1];
-							}
-							flag = false;
-						} else if (arr[j][k + 1] == 0) {
-							arr[j][k + 1] = arr[j][k];
-							arr[j][k] = 0;
-							if (ans < arr[j][k + 1]) {
-								ans = arr[j][k + 1];
-							}
-							flag = false;
-						} else {
+						if (!check[k + 1] && arr[k + 1][j] == arr[i][j]) {
+							arr[k + 1][j] *= 2;
+							arr[i][j] = 0;
+							check[k + 1] = true;
 							break;
+						} else if (arr[k + 1][j] != 0) {
+							arr[k][j] = arr[i][j];
+							arr[i][j] = 0;
+							break;
+						} else if (k == n - 2 && arr[k + 1][j] == 0) {
+							arr[k + 1][j] = arr[i][j];
+							arr[i][j] = 0;
 						}
 					}
+					*/
 				}
 			}
-		} else {
-			for (int i = n - 2; i >= 0; i--) {
-				for (int j = 0; j < n; j++) {
-					if (arr[j][i] == 0)
-						continue;
-					boolean already = false;
-					for (int k = i; k < n - 1; k++) {
-						if (!already && (arr[k + 1][j] == arr[k][j])) {
-							already = true;
-							arr[k + 1][j] += arr[k + 1][j];
-							arr[k][j] = 0;
-							if (ans < arr[k + 1][j]) {
-								ans = arr[k + 1][j];
-							}
-							flag = false;
-						} else if (arr[k + 1][j] == 0) {
-							arr[k + 1][j] = arr[k][j];
-							arr[k][j] = 0;
-							if (ans < arr[k + 1][j]) {
-								ans = arr[k + 1][j];
-							}
-							flag = false;
-						} else {
-							break;
-						}
-					}
-				}
-			}
+		
 		}
-		return arr;
+
 	}
 
 }
