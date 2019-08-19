@@ -22,32 +22,52 @@ public class Solution {
 			ans = 1;
 			char[] arr = br.readLine().toCharArray();
 
-			boolean[] attend = new boolean[4];
-			attend[0] = true;//시작할 때는 A가 키를 가지고 있음.
+			boolean[] attend1 = new boolean[4];
+			boolean[] attend2 = new boolean[4];
+			attend1[0] = true;// 시작할 때는 A가 키를 가지고 있음.
 
+			long res;
 			for (int i = 0; i < arr.length - 1; i++) {
-				attend[arr[i] - 'A'] = true;//책임자 체크
-				int cnt = 0;
-				long temp = 1;
-				for (int j = 0; j < 4; j++) {
-					if (!attend[j])
-						cnt++;
-				}
-				temp = (long) Math.pow(cnt, 2);//키를 가지고 있는 사람과 책임자를 제외한 수만큼 곱해준다.
+				attend1[arr[i] - 'A'] = true;// 책임자 체크
+				attend2[arr[i + 1] - 'A'] = true;
+				res = get(attend1);
+				res *= get(attend2) % 1000000007;
+				attend1[arr[i + 1] - 'A'] = true;
 
-				//책임자를 빼고는 무조건 3명 이니까 곱하기 8
-				temp *= 8;
-				if(attend[arr[i+1] - 'A'])
-					ans *= temp %1000000007;
-				//책임자를 체크
-				attend[arr[i + 1] - 'A'] = true;
+				long temp = 0;
+				if (i == 0) { // 시작할 때 A가 key를 가지고 있으므로 따로 처리한다.
+					if (arr[i + 1] == 'A') {
+						ans *= res % 1000000007;
+						continue;
+					}
+				}
+				temp = get1(attend1);
+				res -= temp;
 				
-				res = 0;
-				//한 쪽에만 들어가야 함.
-//				dfs(attend);
-//				temp -= 
+				ans *= res % 1000000007;
+
+				attend1 = new boolean[4];
+				attend2 = new boolean[4];
 			}
+
+			System.out.format("#%d %d\n", t, ans);
 		}
 	}
 
+	static long get(boolean[] attend) {
+		int cnt = 0;
+		for (int i = 0; i < 4; i++) {
+			if (!attend[i])
+				cnt++;
+		}
+		return (long) Math.pow(2, cnt);
+	}
+	static long get1(boolean[] attend) {
+		int cnt = 0;
+		for (int i = 0; i < 4; i++) {
+			if (!attend[i])
+				cnt++;
+		}
+		return (long) Math.pow(3, cnt);
+	}
 }
