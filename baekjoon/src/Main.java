@@ -58,15 +58,15 @@ public class Main {
 		if (cnt == 3) {
 			Queue<Integer> cpVirus = virus;
 			int[][] cpVisit = new int[n][m];
-			System.out.println("wall");
+//			System.out.println("wall");
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < m; j++) {
-					System.out.print(visit[i][j] + " ");
+//					System.out.print(visit[i][j] + " ");
 					cpVisit[i][j] = visit[i][j];
 				}
-				System.out.println();
+//				System.out.println();
 			}
-			System.out.println();
+//			System.out.println();
 			int ret = bfs(cpVirus, cpVisit, safe);
 			ans = (ans < ret) ? ret : ans;
 		}
@@ -96,14 +96,14 @@ public class Main {
 				safe--;
 			}
 		}
-		System.out.println("virus");
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				System.out.print(cpVisit[i][j] + " ");
-			}
-			System.out.println();
-		}
-		System.out.println("safe: " + safe);
+//		System.out.println("virus");
+//		for (int i = 0; i < n; i++) {
+//			for (int j = 0; j < m; j++) {
+//				System.out.print(cpVisit[i][j] + " ");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println("safe: " + safe);
 		return safe;
 	}
 
