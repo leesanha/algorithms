@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class Solution {
+public class Solution1251 {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static double ans;
 	static int[] parent;
