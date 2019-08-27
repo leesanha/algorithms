@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main14890 {
 	static int n, l;
 	static int[][] map;
 	static boolean[][] check;
@@ -36,17 +36,62 @@ public class Main {
 		int ret = 0;
 
 		for (int i = 0; i < n; i++) {
-			boolean flag = false;
-			int before = 0;
+			boolean flag1 = false;
 			for (int j = 0; j < n - 1; j++) {
-				if (map[i][j] != map[i][j + 1]) {
-					if (j + 1 - before <= l) {
-						flag = true;
-						break;
+				boolean flag2 = false;
+				if(Math.abs(map[i][j] - map[i][j+1]) >= 2) {
+					flag1 = true;
+					break;
+				}else if (map[i][j] < map[i][j + 1]) {
+					int temp = map[i][j];
+					for (int k = j; k > j - l; k--) {
+						if (k < 0) {
+							flag1 = true;
+							flag2 = true;
+							break;
+						}
+						if (check[i][k] || map[i][k] != temp) {
+							flag1 = true;
+							flag2 = true;
+							break;
+						}
 					}
-					
+					if (flag2)
+						break;
+					else {
+						for (int k = j; k > j - l; k--) {
+							check[i][k] = true;
+						}
+					}
+				} else if (map[i][j] > map[i][j + 1]) {
+					int temp = map[i][j + 1];
+					for (int k = j + 1; k < j + 1 + l; k++) {
+						if (k >= n) {
+							flag1 = true;
+							flag2 = true;
+							break;
+						}
+						if (check[i][k] || map[i][k] != temp) {
+							flag1 = true;
+							flag2 = true;
+							break;
+						}
+					}
+					if (flag2)
+						break;
+					else {
+						for (int k = j + 1; k < j + 1 + l; k++) {
+							check[i][k] = true;
+						}
+					}
 				}
+
 			}
+			if (!flag1)
+				ret++;
+			for (int j = 0; j < n; j++)
+				check[i][j] = false;
+
 		}
 		return ret;
 	}
@@ -58,9 +103,6 @@ public class Main {
 					int temp = map[i][j];
 					map[i][j] = map[j][i];
 					map[j][i] = temp;
-					boolean b = check[i][j];
-					check[i][j] = check[j][i];
-					check[j][i] = b;
 				}
 			}
 		}
