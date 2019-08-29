@@ -29,19 +29,32 @@ public class Main {
 			}
 		});
 
-		for (int[] ar : list)
-			System.out.println(Arrays.toString(ar));
+//		for (int[] ar : list)
+//			System.out.println(Arrays.toString(ar));
 
 		int preS = list.get(0)[0];
 		int preL = list.get(0)[1];
 
+		int start = 0;
+		boolean[] check = new boolean[n];
+		check[0] = true;
+		
 		int ans = 1;
-		for (int i = 1; i < n; i++) {
-			if (list.get(i)[0] < preS || list.get(i)[1] < preL)
-				ans++;
-			preS = list.get(i)[0];
-			preL = list.get(i)[1];
+		while (start != n - 1) {
+			for (int i = start; i < n; i++) {
+				if (list.get(i)[0] > preS && list.get(i)[1] > preL) {
+					check[i] = true;
+					preS = list.get(i)[0];
+					preL = list.get(i)[1];
+				}
+			}
+			for(int i=start;i<n;i++) {
+				if(!check[i])
+					start = i;
+			}
+			ans++;
 		}
+
 		System.out.println(ans);
 	}
 }
