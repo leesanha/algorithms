@@ -7,12 +7,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main9655 {
 	static int ans;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+
+		int n = Integer.parseInt(br.readLine());
+		System.out.println((n % 2 == 0) ? "CY" : "SK");
 	}
 
 }

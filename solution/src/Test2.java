@@ -23,7 +23,7 @@ public class Test2 {
 
 			ArrayList<int[]> list = new ArrayList<>();
 			ArrayList<int[]> time = new ArrayList<>();
-
+/*
 			for (int i = 0; i < n; i++) {
 				StringTokenizer st = new StringTokenizer(br.readLine());
 				// 0: x위치, 1: y위치, 2:이동 방향, 3: 보유에너지
@@ -119,7 +119,7 @@ public class Test2 {
 					check[b] = true;
 				}
 			}
-
+*/
 /*			
 			while (true) {
 				for (int i = 0; i < list.size(); i++) {
@@ -167,7 +167,7 @@ public class Test2 {
 					break;
 			}
 			*/
-			System.out.format("#%d %d\n", t, ans);
+//			System.out.format("#%d %d\n", t, ans);
 		}
 	}
 
