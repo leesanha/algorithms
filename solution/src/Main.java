@@ -12,7 +12,13 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+<<<<<<< HEAD
 		StringTokenizer st;
+=======
+
+		StringTokenizer st;
+
+>>>>>>> b17e7df58dddf0bc14b5075771880c6b9f50b067
 	}
 
 }
