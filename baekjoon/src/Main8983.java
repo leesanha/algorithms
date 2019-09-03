@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main8983 {
 	static int ans;
 
 	public static void main(String[] args) throws IOException {
@@ -35,28 +35,33 @@ public class Main {
 			int[] temp = { x, y };
 			animals.add(temp);
 		}
-//		Collections.sort(sadae);
-//		Collections.sort(animals, new Comparator<int[]>() {
-//			@Override
-//			public int compare(int[] o1, int[] o2) {
-//				return o1[0] + o1[1] - o2[0] + o2[1];
-//			}
-//		});
+		Collections.sort(sadae);
+		Collections.sort(animals, new Comparator<int[]>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				return o1[0] - o2[0];
+			}
+		});
 
-		int ans = 0;
-		for (int i = 0; i < sadae.size(); i++) {
-			for (int j = 0; j < animals.size(); j++) {
-				int x = animals.get(j)[0];
-				int y = animals.get(j)[1];
-
-				if (Math.abs(sadae.get(i) - x) + y <= l) {
-					animals.remove(j);
-					j--;
+		int sadaeCur = 0;
+		for (int i = 0; i < animals.size(); i++) {
+			while (sadaeCur != m - 1 && sadae.get(sadaeCur + 1) < animals.get(i)[0])
+				sadaeCur++;
+			if (cal(animals.get(i)[0], animals.get(i)[1], sadae.get(sadaeCur)) <= l) {
+				ans++;
+				continue;
+			}
+			if (sadaeCur != m - 1) {
+				if (cal(animals.get(i)[0], animals.get(i)[1], sadae.get(sadaeCur + 1)) <= l) 
 					ans++;
-				}
 			}
 		}
+
 		System.out.println(ans);
+	}
+
+	private static int cal(int x, int y, int xx) {
+		return Math.abs(x - xx) + y;
 	}
 
 }
