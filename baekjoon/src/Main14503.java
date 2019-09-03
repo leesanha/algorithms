@@ -33,7 +33,7 @@ public class Main14503 {
 
 		int ans = 0, nr, nc, ndir;
 		first: while (true) {
-			if(visit[row][col] == 0) {
+			if (visit[row][col] == 0) {
 				visit[row][col] = 2;// 먼저 지금 위치 청소
 				ans++;
 			}
@@ -54,7 +54,7 @@ public class Main14503 {
 			}
 			row = row + dr[(dir + 2) % 4];
 			col = col + dc[(dir + 2) % 4];
-			if(map[row][col] == 1){
+			if (map[row][col] == 1) {
 				break;
 			}
 		}

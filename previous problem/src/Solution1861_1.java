@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Solution1861 {
+public class Solution1861_1 {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static int n;
 	static int[][] map;
