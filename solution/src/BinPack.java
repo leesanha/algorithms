@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 
 public class BinPack {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static final double SIZE = 6000;
 
 	public static void main(String[] args) throws IOException {
 		ArrayList<Node> list = new ArrayList<>();
@@ -35,18 +36,17 @@ public class BinPack {
 			}
 		});// 내림차순 정렬
 
-//		for (Node n : list) {
-//			System.out.println(n.len + " " + n.cnt);
-//		}
-
 		ArrayList<Double>[] bins = new ArrayList[3552];// 통
 		bins[0] = new ArrayList<>();// 첫 번째 통은 먼저 만들어 준다.
-		bins[0].add((double) 10000);
+		bins[0].add((double) SIZE);
 		int B = 0;// 통 개수
-		double size = 10000;
+		
 
+		int cnt = 0;
 		for (int i = 0; i < list.size(); i++) {// 리스트 순차적으로 가면서 탐색
-			for (int j = 0; j < list.get(i).cnt; j++) {// 각각 마디 마다 몇개가 있는지
+			int list_size = list.get(i).cnt;
+			for (int j = 0; j < list_size; j++) {// 각각 마디 마다 몇개가 있는지
+				cnt++;
 				boolean flag = false;// 새로 통을 추가해야하는가
 				for (int k = 0; k <= B; k++) {// 쓰레기통 첨부터 탐색
 					if (bins[k].get(0) >= list.get(i).len) {// 해당 통에 들어갈 수 있으면 넣는다.
@@ -54,7 +54,6 @@ public class BinPack {
 						bins[k].remove(0);
 						bins[k].add(0, temp);
 						bins[k].add(list.get(i).len);
-						list.get(i).cnt--;
 						flag = true;
 						break;// 통에 넣었으면 통 탐색을 그만둔다.
 					}
@@ -62,28 +61,36 @@ public class BinPack {
 				if (!flag) {// 새로운 통을 추가해야한다면
 					B++;
 					bins[B] = new ArrayList<>();// 통 만들고
-					bins[B].add((double) 10000);// 기준값 넣고
+					bins[B].add((double) SIZE);// 기준값 넣고
 					double temp = bins[B].get(0) - list.get(i).len;// 데이터 추가
 					bins[B].remove(0);
 					bins[B].add(0, temp);
 					bins[B].add(list.get(i).len);
-					list.get(i).cnt--;
 				}
 			}
 		}
+		System.out.println("총 개수: " + cnt);
 
-		System.out.println("통 총 갯수: " + B);
+
+//		double sum = 0;
+//		int cnt = 0;
+		System.out.println("통 총 갯수: " + (B + 1));
 		for (int i = 0; i < bins.length; i++) {
 			if (bins[i] == null)
 				break;
-			System.out.print("남은 길이: " + bins[i].get(0) + ", ");
+			System.out.print(i + ": " + "남은 길이: " + bins[i].get(0) + ", ");
 
 			for (int j = 1; j < bins[i].size(); j++) // j==0은 남은 길이
 			{
+//				sum += bins[i].get(j);
+//				cnt++;
 				System.out.print(bins[i].get(j) + " ");
 			}
 			System.out.println();
 		}
+//		System.out.println("총 개수: " + cnt);
+//		System.out.println("다 더한 값: " + sum);
+//		System.out.println(236 * 6000);
 	}
 
 	static class Node {
