@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class Solution {
+public class Solution_1 {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -87,7 +87,7 @@ public class Solution {
 				HashSet<Integer> ss = new HashSet<>();
 				for (int i = 0; i < list.size(); i++)
 					ss.add(list.get(i)[2]);
-				
+
 				System.out.print("#" + t + " " + "0 ");
 				print2(output, rr, cc, ss);
 				System.out.println();
@@ -99,43 +99,40 @@ public class Solution {
 	private static void print2(String[] output, HashSet<Integer> rr, HashSet<Integer> cc, HashSet<Integer> ss) {
 		for (int i = 1; i < output.length; i++) {
 			int[] oper = getCnt(output, i);
-			
-			if(oper[0] != 0 && rr.size() != 1) {
-				System.out.print("-1 ");
-				return;
-			}
-			if(oper[1] != 0 && cc.size() != 1) {
-				System.out.print("-1 ");
-				return;
-			}
-			if(oper[2] != 0 && ss.size() != 1) {
-				System.out.print("-1 ");
-				return;
-			}
-			
+			boolean flag = true;
+			if (oper[0] != 0 && rr.size() != 1)
+				flag = false;
+			if (oper[1] != 0 && cc.size() != 1)
+				flag = false;
+			if (oper[2] != 0 && ss.size() != 1)
+				flag = false;
+
 			int sum = 0;
-			if(rr.size() == 1) {
+			if (rr.size() == 1) {
 				int r = 0;
-				for(Integer target : rr) {
+				for (Integer target : rr) {
 					r = target;
 				}
 				sum += oper[0] * r;
 			}
-			if(cc.size() == 1) {
+			if (cc.size() == 1) {
 				int c = 0;
-				for(Integer target : cc) {
+				for (Integer target : cc) {
 					c = target;
 				}
 				sum += oper[1] * c;
 			}
-			if(ss.size() == 1) {
+			if (ss.size() == 1) {
 				int s = 0;
-				for(Integer target : ss) {
+				for (Integer target : ss) {
 					s = target;
 				}
 				sum += oper[0] * s;
 			}
-			System.out.print(sum + " ");
+			if (!flag)
+				System.out.print("-1");
+			else
+				System.out.print(sum + " ");
 		}
 	}
 
