@@ -2,95 +2,86 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class Main {
-	static long ans, n;
-	static ArrayList<Long> operation;
-	static ArrayList<Character> operator;
-	static char[] input;
+	static int ans;
+	static HashSet<String> set = new HashSet<>();
+	static ArrayList<int[]> vs;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		StringTokenizer st;
-		n = Integer.parseInt(br.readLine());
-		input = br.readLine().toCharArray();
 
-		operation = new ArrayList<Long>();
-		operator = new ArrayList<Character>();
-		ans = Long.MIN_VALUE;
-		dfs(0);
-	}
+		vs = new ArrayList<>();
+		for (int i = 0; i < 6; i++) {
+			for (int j = i + 1; j < 6; j++) {
+				int[] temp = { i, j };
+				vs.add(temp);
+			}
+		}
 
-	private static void dfs(int idx) {
-		if (idx + 2>= n - 1) {
-			operation.add(Long.parseLong(input[idx] + ""));
-			long sum = operation.get(0);
-			for (int i = 0; i < operator.size(); i++) {
-				switch (operator.get(i)) {
-				case '+':
-					sum += operation.get(i + 1);
-					break;
-				case '-':
-					sum -= operation.get(i + 1);
-					break;
-				case '*':
-					sum *= operation.get(i + 1);
+		int[][] table = new int[6][3];
+
+		dfs(0, table);
+
+		for (int i = 0; i < 4; i++) {
+			st = new StringTokenizer(br.readLine());
+			String t = "";
+			for (int j = 0; j < 6; j++) {
+				for (int k = 0; k < 3; k++) {
+					t += st.nextToken();
 				}
 			}
-			operation.remove(operation.size() - 1);
-			if (sum > ans)
-				ans = sum;
-
-			return;
+			if (set.contains(t)) {
+				System.out.println(1);
+			} else {
+				System.out.println(0);
+			}
 		}
-		// 앞에꺼 두 개 계산
-		long ret = cal(input[idx + 1], Integer.parseInt(input[idx] + ""), Integer.parseInt(input[idx + 2] + ""));
-		operation.add(ret);
-		operator.add(input[idx + 3]);
-		dfs(idx + 4);
-		// 앞에꺼 두고 뒤에꺼 2개 계산
-		operation.remove(operation.size() - 1);
-		operator.remove(operator.size() - 1);
-		ret = cal(input[idx + 1], Integer.parseInt(input[idx] + ""),
-				cal(input[idx + 3], Integer.parseInt(input[idx + 2] + ""), Integer.parseInt(input[idx + 4] + "")));
-		if (idx + 5 >= n - 1) {
-			long sum = operation.get(0);
-			for (int i = 0; i < operator.size(); i++) {
-				switch (operator.get(i)) {
-				case '+':
-					sum += ret;
-					break;
-				case '-':
-					sum -= ret;
-					break;
-				case '*':
-					sum *= ret;
+	}
+
+	private static void dfs(int idx, int[][] table) {
+//		for (int i = 0; i < 6; i++) {
+//			for (int j = 0; j < 3; j++) {
+//				System.out.print(table[i][j]);
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
+		if (idx == 15) {
+			String t = "";
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 3; j++) {
+					t += table[i][j] + "";
 				}
 			}
-			if (sum > ans)
-				ans = sum;
-
+			set.add(t);
 			return;
 		}
-		operator.add(input[idx + 5]);
-		dfs(idx + 6);
+		int player1 = vs.get(idx)[0];
+		int player2 = vs.get(idx)[1];
+		// 앞에가 이길 때
+		table[player1][0]++;
+		table[player2][2]++;
+		dfs(idx + 1, table);
+		table[player1][0]--;
+		table[player2][2]--;
+		// 비길 때
+		table[player1][1]++;
+		table[player2][1]++;
+		dfs(idx + 1, table);
+		table[player1][1]--;
+		table[player2][1]--;
+		// 앞에가 질 떄
+		table[player1][2]++;
+		table[player2][0]++;
+		dfs(idx + 1, table);
+		table[player1][2]--;
+		table[player2][0]--;
 	}
 
-	static long cal(char oper, long a, long b) {
-		long ret = 0;
-		switch (oper) {
-		case '+':
-			ret = a + b;
-			break;
-		case '-':
-			ret = a - b;
-			break;
-		case '*':
-			ret = a * b;
-			break;
-		}
-		return ret;
-	}
 }
