@@ -39,7 +39,8 @@ public class Main17472 {
 		boolean[][] visit = new boolean[n][m];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				if (map[i][j] != 0 && !visit[i][j]) {
+				if (map[i][j] != 0 && !visit[i][j]) {//아직 방문하지 않고, 섬인 곳
+					//BFS를 돌면서 섬을 ArrayList에 넣는다.
 					ArrayList<int[]> thing = new ArrayList<>();
 					Queue<int[]> q = new LinkedList<>();
 					int[] temp = { i, j };
@@ -66,8 +67,8 @@ public class Main17472 {
 							map[nr][nc] = numbering;
 						}
 					}
-					island.add(thing);
-					numbering++;
+					island.add(thing);//BFS를 통해 구한 하나의 섬을 island 리스트에 넣는다.
+					numbering++;//map에도 섬을 표시해준다.(numbering을 통해)
 				}
 			}
 		} // 섬을 다 찾음.
@@ -83,9 +84,10 @@ public class Main17472 {
 
 		for (int i = 0; i < island.size(); i++) {
 			ArrayList<int[]> one = island.get(i);
-			getBridge(one);
+			getBridge(one);//섬을 하나씩 꺼내서 bridge 리스트에 넣는다.
 		}
 
+		//정렬
 		Collections.sort(bridge, new Comparator<int[]>() {
 
 			@Override
@@ -97,10 +99,12 @@ public class Main17472 {
 //			System.out.println(Arrays.toString(ttt));
 //		}
 
+		//union-find를 위한 배열을 만든다.
 		parent = new int[island.size() + 1];
 		for (int i = 1; i <= island.size(); i++)
 			parent[i] = i;
 
+		//union-find 수행
 		int cnt = 0;
 		for (int i = 0; i < bridge.size(); i++) {
 			int a = bridge.get(i)[0];
@@ -143,11 +147,12 @@ public class Main17472 {
 			int row = one.get(i)[0];
 			int col = one.get(i)[1];
 
+			//4방향을 본다.
 			for (int d = 0; d < 4; d++) {
 				int dis = 0;
 				int nr = row;
 				int nc = col;
-				while (true) {
+				while (true) {//섬을 찾을 때까지 가본다.
 					nr = nr + dr[d];
 					nc = nc + dc[d];
 					dis++;
