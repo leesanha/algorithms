@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main6987 {
 	static int ans;
 	static HashSet<String> set = new HashSet<>();
 	static ArrayList<int[]> vs;
