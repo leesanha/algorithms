@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class Solution_temp {
+public class Solution_croak {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
